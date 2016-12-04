@@ -16,7 +16,7 @@ def get_smallest_bar(data):
 
 
 def get_closest_bar(data, longitude, latitude):
-    '''Евклидовы расстояния'''
+    '''Евклидовы расстояния для простоты. Думаю, необходим расчёт в сферических координатах для универсальности'''
     bars = [((bar['geoData']['coordinates'][0]-longitude)**2 + (bar['geoData']['coordinates'][1]-latitude)**2, bar['Name']) \
             for bar in data]
     return min(bars)[1]
