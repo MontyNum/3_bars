@@ -2,7 +2,11 @@ import json
 
 
 def load_data(filepath):
-    return json.load(open(filepath, 'r'))
+    import os
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)
 
 
 def get_biggest_bar(data):
@@ -16,10 +20,18 @@ def get_smallest_bar(data):
 
 
 def get_closest_bar(data, longitude, latitude):
-    '''Евклидовы расстояния для простоты. Думаю, необходим расчёт в сферических координатах для универсальности'''
-    bars = [((bar['geoData']['coordinates'][0]-longitude)**2 + (bar['geoData']['coordinates'][1]-latitude)**2, bar['Name']) \
+    '''
+    -90 <= longitude <= 90
+    -180 <= latitude <= 180
+    '''
+    bars = [([abs(bar['geoData']['coordinates'][0]-longitude), abs(bar['geoData']['coordinates'][1]-latitude)], bar['Name']) \
             for bar in data]
-    return min(bars)[1]
+    distance = []
+    for angles, name in bars:
+        if angles[1]>180.:                                   # carefully
+            angles[1] = 360. - angles[1]
+        distance.append((angles[0]**2 + angles[1]**2, name)) # square of angle distance
+    return [name for dist, name in distance if dist == min(distance)[0]]
 
 
 if __name__ == '__main__':
