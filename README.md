@@ -3,6 +3,7 @@ This script provides to compute the bigget bar, the smallest bar and the closest
 The data must have json type (for more details see: http://data.mos.ru/opendata/7710881420-bary).
 
 **load_data(** *filepath* **)** 
+
   Downloads data.json from file path directory and returns deserialized a Python object.
 
 Function *get_biggest_bar(data)* returns the biggest bar of Moscow.
