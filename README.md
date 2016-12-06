@@ -17,4 +17,5 @@ The data must have json type (for more details see: http://data.mos.ru/opendata/
 **get_closest_bar(***data, longitude, latitude***)** 
 
     Receives data (a Python object), longitude and latitude of interesting location. Longitude must 
-    be lie within [-90;90] and latitude must lie within [-180;180]. The function returns a list of bars that are the closest to the location (if their distances are equal).
+    be lie within [-90;90] and latitude must lie within [-180;180]. The function returns a list of bars
+    that are the closest to the location (if their distances are equal).
