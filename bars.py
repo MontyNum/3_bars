@@ -9,29 +9,29 @@ def load_data(filepath):
         return json.load(file_handler)
 
 
-def get_biggest_bar(data):
+def get_biggest_bar(json_content):
+    bars = [(bar['SeatsCount'], bar['Name']) for bar in json_content]
+    return [name for seats_count, name in bars if seats_count == max(bars)[0]]
+
+
+def get_smallest_bar(json_content):
     bars = [(bar['SeatsCount'], bar['Name']) for bar in data]
-    return [name for cnt, name in bars if cnt == max(bars)[0]]
+    return [name for seats_count, name in bars if seats_count == min(bars)[0]]
 
 
-def get_smallest_bar(data):
-    bars = [(bar['SeatsCount'], bar['Name']) for bar in data]
-    return [name for cnt, name in bars if cnt == min(bars)[0]]
-
-
-def get_closest_bar(data, longitude, latitude):
+def get_closest_bar(json_content, longitude, latitude):
     '''
     -90 <= longitude <= 90
     -180 <= latitude <= 180
     '''
     bars = [([abs(bar['geoData']['coordinates'][0]-longitude), abs(bar['geoData']['coordinates'][1]-latitude)], bar['Name']) \
-            for bar in data]
-    distance = []
+            for bar in json_content]
+    distances = []
     for angles, name in bars:
         if angles[1]>180.:                                   # carefully
             angles[1] = 360. - angles[1]
-        distance.append((angles[0]**2 + angles[1]**2, name)) # square of angle distance
-    return [name for dist, name in distance if dist == min(distance)[0]]
+        distances.append((angles[0]**2 + angles[1]**2, name)) # square of angle distance
+    return [name for distance, name in distances if distance == min(distances)[0]]
 
 
 if __name__ == '__main__':
