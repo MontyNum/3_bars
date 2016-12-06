@@ -39,27 +39,6 @@ if __name__ == '__main__':
     data = load_data(file_path)
     print('\nThe biggest bar:', get_biggest_bar(data))
     print('The smallest bar:', get_smallest_bar(data), '\n')
-    
-    longitude = None
-    while not longitude:
-        try:
-            longitude = float(input('Enter longitude of interesting position: '))
-        except ValueError:
-            print('It is not a number. Exiting...')
-            sys.exit()
-        if longitude > 90. or longitude < - 90.:
-            print('Longitude must lie within [-90;90]')
-            longitude = None
-            
-    latitude = None
-    while not latitude:
-        try:
-            latitude = float(input('Enter latitude of interesting position: '))
-        except ValueError:
-            print('It is not a number. Exiting...')
-            sys.exit()
-        if latitude > 180. or latitude < -180.:
-            print('Latitude must lie within [-180;180]')
-            latitude = None
-            
+    longitude = float(input('Enter longitude of interesting position: '))
+    latitude = float(input('Enter latitude of interesting position: '))
     print('\nThe closest bar:', get_closest_bar(data, longitude, latitude))
