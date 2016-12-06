@@ -1,4 +1,4 @@
-# 3_bars
+# bars
 This script allows to compute the biggest bar, the smallest bar and the closest bar of Moscow bars.
 The data must have json type (for more details see: http://data.mos.ru/opendata/7710881420-bary).
 
