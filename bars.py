@@ -1,4 +1,6 @@
-import json, sys, os
+import json
+import sys
+import os
 
 
 def load_data(filepath):
