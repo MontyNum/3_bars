@@ -17,7 +17,7 @@ def get_biggest_bar(json_content):
 
 
 def get_smallest_bar(json_content):
-    bars = [(bar['SeatsCount'], bar['Name']) for bar in data]
+    bars = [(bar['SeatsCount'], bar['Name']) for bar in json_content]
     return [name for seats_count, name in bars if seats_count == min(bars)[0]]
 
 
