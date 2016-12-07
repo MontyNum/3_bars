@@ -30,7 +30,7 @@ def get_closest_bar(json_content, longitude, latitude):
             for bar in json_content]
     distances = []
     for angles, name in bars:
-        if angles[1]>180.:                                   # carefully
+        if angles[1]>180.:                                    # carefully
             angles[1] = 360. - angles[1]
         distances.append((angles[0]**2 + angles[1]**2, name)) # square of angle distance
     return [name for distance, name in distances if distance == min(distances)[0]]
