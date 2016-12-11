@@ -15,12 +15,14 @@ def get_bar_seat_counts(bars_content):
     bar_seat_counts = [(bar['SeatsCount'], bar['Name']) for bar in bars_content]
     return bar_seat_counts
 
-def get_biggest_bar(bar_seat_counts):
+def get_biggest_bar(bars_content):
+    bar_seat_counts = get_bar_seat_counts(bars_content)
     biggest_bars = [bar_name for bar_seat_count, bar_name in bar_seat_counts if bar_seat_count == max(bar_seat_counts)[0]]
     return biggest_bars
 
 
-def get_smallest_bar(bar_seat_counts):
+def get_smallest_bar(bars_content):
+    bar_seat_counts = get_bar_seat_counts(bars_content)
     smallest_bars = [bar_name for bar_seat_count, bar_name in bar_seat_counts if bar_seat_count == min(bar_seat_counts)[0]]
     return smallest_bars
 
@@ -34,9 +36,9 @@ def get_bars_coordinates(bars_content):
 def get_angle_distances(bars_coordinates, longitude, latitude):
     distances = []
     for bar_coordinates, bar_name in bars_coordinates:
-        if bar_coordinates[1] > 180.:                                    # carefully
+        if bar_coordinates[1] > 180.:                                    
             bar_coordinates[1] = 360. - bar_coordinates[1]
-        distances.append((bar_coordinates[0]**2 + bar_coordinates[1]**2, bar_name)) # square of angle distance
+        distances.append((bar_coordinates[0]**2 + bar_coordinates[1]**2, bar_name)) 
     return distances
         
         
@@ -53,9 +55,9 @@ def get_closest_bar(bars_content, longitude, latitude):
 
 if __name__ == '__main__':
     file_path = input('Enter path of file: ')
-    bars = load_data_of_bars(file_path)
-    print('\nThe biggest bar:', get_biggest_bar(bars))
-    print('The smallest bar:', get_smallest_bar(bars), '\n')
+    bars_content = load_data_of_bars(file_path)
+    print('\nThe biggest bar:', get_biggest_bar(bars_content))
+    print('The smallest bar:', get_smallest_bar(bars_content), '\n')
     longitude = float(input('Enter longitude of interesting position: '))
     latitude = float(input('Enter latitude of interesting position: '))
-    print('\nThe closest bar:', get_closest_bar(bars, longitude, latitude))
+    print('\nThe closest bar:', get_closest_bar(bars_content, longitude, latitude))
