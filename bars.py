@@ -44,6 +44,7 @@ def get_angle_distances(bars_coordinates, longitude, latitude):
         
 def get_closest_bar(bars_content, longitude, latitude):
     '''
+    Geographic coordinates:
     -90 <= longitude <= 90
     -180 <= latitude <= 180
     '''
