@@ -17,6 +17,9 @@ def get_bar_seat_counts(bars_content):
 
 def get_biggest_bar(bars_content):
     bar_seat_counts = get_bar_seat_counts(bars_content)
+    # Не понимаю зачем импользовать key: его использование уместно только если функция должна будет возвращать ОДИН единственный бар,
+    # но в данных присутствуют бары, с одинаковым максимальным кол-ом посадочных мест. Поэтому моя фунция возвращает список баров с
+    # предельным значением 'SeatsCount' и, как я думаю, это не сделать одним единственным использованием key. Я в тупике...
     biggest_bars = [bar_name for bar_seat_count, bar_name in bar_seat_counts if bar_seat_count == max(bar_seat_counts)[0]]
     return biggest_bars
 
@@ -43,11 +46,6 @@ def get_angle_distances(bars_coordinates, longitude, latitude):
         
         
 def get_closest_bar(bars_content, longitude, latitude):
-    '''
-    Geographic coordinates:
-    -90 <= longitude <= 90
-    -180 <= latitude <= 180
-    '''
     bars_coordinates = get_bars_coordinates(bars_content)
     angle_distances = get_angle_distances(bars_coordinates, longitude, latitude)
     closest_bars = [bar_name for bar_distance, bar_name in angle_distances if bar_distance == min(angle_distances)[0]]
