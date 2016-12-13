@@ -11,47 +11,28 @@ def load_data_of_bars(json_filepath):
         bars_content = json.load(file_handler)
         return bars_content
 
-def get_bar_seat_counts(bars_content):
-    bar_seat_counts = [(bar['SeatsCount'], bar['Name']) for bar in bars_content]
-    return bar_seat_counts
 
 def get_biggest_bar(bars_content):
-    '''
-    Не понимаю зачем импользовать key: его использование уместно только если функция должна будет возвращать ОДИН единственный бар,
-    но в данных присутствуют бары, с одинаковым максимальным кол-ом посадочных мест. Поэтому моя фунция возвращает список баров с
-    предельным значением 'SeatsCount' и, как я думаю, это не сделать одним единственным использованием key. Я в тупике...
-    '''
-    bar_seat_counts = get_bar_seat_counts(bars_content)
-    biggest_bars = [bar_name for bar_seat_count, bar_name in bar_seat_counts if bar_seat_count == max(bar_seat_counts)[0]]
-    return biggest_bars
+    biggest_bar_info = max(bars_content, key=lambda bar_info: bar_info['SeatsCount'])
+    return biggest_bar_info['Name']
 
 
 def get_smallest_bar(bars_content):
-    bar_seat_counts = get_bar_seat_counts(bars_content)
-    smallest_bars = [bar_name for bar_seat_count, bar_name in bar_seat_counts if bar_seat_count == min(bar_seat_counts)[0]]
-    return smallest_bars
+    smallest_bar_info = min(bars_content, key=lambda bar_info: bar_info['SeatsCount'])
+    return smallest_bar_info['Name']
 
 
-def get_bars_coordinates(bars_content):
-    bars_coordinates = [([abs(bar['geoData']['coordinates'][0] - longitude), abs(bar['geoData']['coordinates'][1] - latitude)], \
-                         bar['Name']) for bar in bars_content]
-    return bars_coordinates
 
-
-def get_angle_distances(bars_coordinates, longitude, latitude):
-    distances = []
-    for bar_coordinates, bar_name in bars_coordinates:
-        if bar_coordinates[1] > 180.:                                    
-            bar_coordinates[1] = 360. - bar_coordinates[1]
-        distances.append((bar_coordinates[0]**2 + bar_coordinates[1]**2, bar_name)) 
-    return distances
+def get_angle_distance(bar_info, longitude, latitude):
+    bar_info['geoData']['coordinates'][0] -= longitude
+    if abs(bar_info['geoData']['coordinates'][1] - latitude) > 180.:                                    
+        bar_info['geoData']['coordinates'][1] = 360. - latitude 
+    return bar_info['geoData']['coordinates'][0]**2 + bar_info['geoData']['coordinates'][1]**2
         
         
 def get_closest_bar(bars_content, longitude, latitude):
-    bars_coordinates = get_bars_coordinates(bars_content)
-    angle_distances = get_angle_distances(bars_coordinates, longitude, latitude)
-    closest_bars = [bar_name for bar_distance, bar_name in angle_distances if bar_distance == min(angle_distances)[0]]
-    return closest_bars
+    closest_bar_info = min(bars_content, key=lambda bar_info: get_angle_distance(bar_info, longitude, latitude))
+    return closest_bar_info['Name']
 
 
 if __name__ == '__main__':
