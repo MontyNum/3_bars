@@ -25,8 +25,11 @@ def get_smallest_bar(bars_content):
 
 def get_angle_distance(bar_info, longitude, latitude):
     bar_info['geoData']['coordinates'][0] -= longitude
-    if abs(bar_info['geoData']['coordinates'][1] - latitude) > 180.:                                    
-        bar_info['geoData']['coordinates'][1] = 360. - latitude 
+    latitude_distance = abs(bar_info['geoData']['coordinates'][1] - latitude)
+    if latitude_distance > 180.:                                    
+        bar_info['geoData']['coordinates'][1] = 360. - latitude_distance
+    else:
+        bar_info['geoData']['coordinates'][1] = latitude_distance
     return bar_info['geoData']['coordinates'][0]**2 + bar_info['geoData']['coordinates'][1]**2
         
         
